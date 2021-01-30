@@ -16,6 +16,8 @@ Options:
 -r	Randomize file extension.
 ```
 
+File must be in the same directory as executable
+
 ## Cloning
 #### Run via Visual Studio 2019
 
