@@ -10,9 +10,9 @@ Simple "file destroying"program written in C#
 `mishmash.exe [option] <fileName>`
 ```
 Options:
-		-h		Show help.
-		-s		Keep current file extension.
-		-r		Randomize file extension.
+-h	Show help.
+-s	Keep current file extension.
+-r	Randomize file extension.
 ```
 
 ## Cloning
