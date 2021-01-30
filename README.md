@@ -18,4 +18,4 @@ Options:
 ## Cloning
 #### Run via Visual Studio 2019
 
-`git clone https://github.com/nogiszd/`
+`git clone https://github.com/nogiszd/mishmash.git`
