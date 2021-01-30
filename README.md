@@ -5,6 +5,7 @@ Simple "file destroying"program written in C#
 - getting file into an array of bytes
 - converting this array to string then to binary
 - encode with Base64
+- saving modified file with current extension or with randomized one or with ".mishmash"
 
 ## Usage
 `mishmash.exe [option] <fileName>`
