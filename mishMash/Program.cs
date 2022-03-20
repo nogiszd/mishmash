@@ -20,8 +20,8 @@ namespace mishMash
 
         static public string EncodeTo64(string toEncode)
         {
-            byte[] toEncodeAsBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(toEncode);
-            string returnValue = System.Convert.ToBase64String(toEncodeAsBytes);
+            byte[] toEncodeAsBytes = Encoding.ASCII.GetBytes(toEncode);
+            string returnValue = Convert.ToBase64String(toEncodeAsBytes);
             return returnValue;
         }
 
@@ -71,8 +71,6 @@ namespace mishMash
             {
                 PrepareScramble(args[0], 0);
             }
-
-            
         }
 
         static void ShowHelp()
@@ -88,68 +86,35 @@ namespace mishMash
 
         static void PrepareScramble(string file, int flag)
         {
-            if (flag == 0)
+            if (!File.Exists(file))
             {
-                if (!File.Exists(file))
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("File doesn't exist in current directory!");
-                    Console.ResetColor();
-                    Environment.Exit(1);
-                }
-
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("WARNING! Scrambled file cannot be unscrambled!");
-                Console.WriteLine("");
+                Console.WriteLine("File doesn't exist in current directory!");
                 Console.ResetColor();
-                Console.WriteLine("MishMash 0.1");
-                Console.WriteLine($"Input file: {file}");
-                Console.WriteLine("Press key to proceed...");
-                Console.WriteLine();
-                Console.ReadKey();
-                Scramble(file, false, false);
+                Environment.Exit(1);
             }
-            else if (flag == 1)
-            {
-                if (!File.Exists(file))
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("File doesn't exist in current directory!");
-                    Console.ResetColor();
-                    Environment.Exit(1);
-                }
 
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("WARNING! Scrambled file cannot be unscrambled!");
-                Console.WriteLine("");
-                Console.ResetColor();
-                Console.WriteLine("MishMash 0.1");
-                Console.WriteLine($"Input file: {file}");
-                Console.WriteLine("Press key to proceed...");
-                Console.WriteLine();
-                Console.ReadKey();
-                Scramble(file, false, true);
-            }
-            else if (flag == 2)
-            {
-                if (!File.Exists(file))
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("File doesn't exist in current directory!");
-                    Console.ResetColor();
-                    Environment.Exit(1);
-                }
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("WARNING! Scrambled file cannot be unscrambled at the moment!");
+            Console.WriteLine("");
+            Console.ResetColor();
+            Console.WriteLine("MishMash 0.1");
+            Console.WriteLine($"Input file: {file}");
+            Console.WriteLine("Press key to proceed...");
+            Console.WriteLine();
+            Console.ReadKey();
 
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("WARNING! Scrambled file cannot be unscrambled!");
-                Console.WriteLine("");
-                Console.ResetColor();
-                Console.WriteLine("MishMash 0.1");
-                Console.WriteLine($"Input file: {file}");
-                Console.WriteLine("Press key to proceed...");
-                Console.WriteLine();
-                Console.ReadKey();
-                Scramble(file, true, false);
+            switch (flag)
+            {
+                case 0:
+                    Scramble(file, false, false);
+                    return;
+                case 1:
+                    Scramble(file, false, true);
+                    return;
+                case 2:
+                    Scramble(file, true, false);
+                    return;
             }
         }
 
@@ -158,31 +123,30 @@ namespace mishMash
             byte[] bytes = File.ReadAllBytes(Environment.CurrentDirectory + @"\" + file);
             string buffer = System.Text.Encoding.UTF8.GetString(bytes, 0, bytes.Length);
             Random _random = new Random();
+            string newFileName = "";
 
             if(randomExt==true && keepExt == false)
             {
-                int rnd = _random.Next(0, fileExt.Length);
-                File.WriteAllText($@"{Environment.CurrentDirectory}\{Path.GetFileNameWithoutExtension(Environment.CurrentDirectory + @"\" + file)}.{fileExt[rnd]}", EncodeTo64(StringToBinary(buffer)));
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"Output file: {Path.GetFileNameWithoutExtension(Environment.CurrentDirectory + @"\" + file)}.{fileExt[rnd]}");
-                Console.ResetColor();
+                string rndFileExt = fileExt[_random.Next(0, fileExt.Length)];
+                newFileName = $@"{Path.GetFileNameWithoutExtension(Environment.CurrentDirectory + @"\" + file)}.{rndFileExt}";
+                File.WriteAllText($@"{Environment.CurrentDirectory}\{newFileName}", EncodeTo64(StringToBinary(buffer)));
             }
 
             if(randomExt==false && keepExt == true)
             {
-                File.WriteAllText($@"{Environment.CurrentDirectory}\{file}", EncodeTo64(StringToBinary(buffer)));
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"Output file: {file}");
-                Console.ResetColor();
+                newFileName = file;
+                File.WriteAllText($@"{Environment.CurrentDirectory}\{newFileName}", EncodeTo64(StringToBinary(buffer)));
             }
 
             if(randomExt==false && keepExt == false)
             {
-                File.WriteAllText($@"{Environment.CurrentDirectory}\{Path.GetFileNameWithoutExtension(Environment.CurrentDirectory + @"\" + file)}.mishmash", EncodeTo64(StringToBinary(buffer)));
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"Output file: {Path.GetFileNameWithoutExtension(Environment.CurrentDirectory + @"\" + file)}.mishmash");
-                Console.ResetColor();
+                newFileName = $@"{Path.GetFileNameWithoutExtension(Environment.CurrentDirectory + @"\" + file)}.mishmash";
+                File.WriteAllText($@"{Environment.CurrentDirectory}\{newFileName}", EncodeTo64(StringToBinary(buffer)));
             }
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"Output file: {newFileName}");
+            Console.ResetColor();
         }
     }
 }
