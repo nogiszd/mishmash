@@ -3,7 +3,7 @@ Simple "file destroying" program written in C#
 
 ## Working principle
 - transforming file contents into an array of bytes
-- converting this array to string and then to binary notation
+- converting achieved array to string and then to binary notation
 - encode with Base64
 - saving modified file with current extension, randomized one or with ".mishmash"
 
