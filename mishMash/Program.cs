@@ -129,20 +129,19 @@ namespace mishMash
             {
                 string rndFileExt = fileExt[_random.Next(0, fileExt.Length)];
                 newFileName = $@"{Path.GetFileNameWithoutExtension(Environment.CurrentDirectory + @"\" + file)}.{rndFileExt}";
-                File.WriteAllText($@"{Environment.CurrentDirectory}\{newFileName}", EncodeTo64(StringToBinary(buffer)));
             }
 
             if(randomExt==false && keepExt == true)
             {
                 newFileName = file;
-                File.WriteAllText($@"{Environment.CurrentDirectory}\{newFileName}", EncodeTo64(StringToBinary(buffer)));
             }
 
             if(randomExt==false && keepExt == false)
             {
                 newFileName = $@"{Path.GetFileNameWithoutExtension(Environment.CurrentDirectory + @"\" + file)}.mishmash";
-                File.WriteAllText($@"{Environment.CurrentDirectory}\{newFileName}", EncodeTo64(StringToBinary(buffer)));
             }
+            
+            File.WriteAllText($@"{Environment.CurrentDirectory}\{newFileName}", EncodeTo64(StringToBinary(buffer)));
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"Output file: {newFileName}");
